@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My 5G Personal Shopper</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.6/css/mdb.min.css" rel="stylesheet">
+
+
+
+    <style>
+        html, body {
+            margin: 0px 0px 0px 0px;
+            height: 100vh;
+            width: 100vw;
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: white;
+
+        }
+
+        #mainTab {
+            width: auto;
+        }
+
+        #video2 {
+            width: 100vh;
+            -webkit-transform: rotate(90deg);
+            -moz-transform: rotate(90deg);
+            -o-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            transform: rotate(90deg);
+        }
+        .profiles{
+            list-style: none;
+            margin-bottom:6px;
+        }
+        .profileItem{
+            padding: 8px 8px;
+            border: solid 1px black;
+            border-radius: 10px;
+            float: left;
+            margin-right:40px;
+            margin-bottom:6px;
+            color: black;
+            text-align: center;
+        }
+        .profileItem span{
+            font-size: 20px;
+            color: black;
+                font-weight: bolder;
+            text-align: center;
+        }
+
+        #shopperCommand{
+            font-size: 30px;
+            font-weight: bolder;
+            width:85%;
+            padding:8px 8px 8px 8px;
+        }
+
+        #shopperProfiles{
+
+        }
+        #storeProfiles{
+
+        }
+
+        .hidden { display: none; }
+    </style>
+
+</head>
+<body allow="microphone; camera">
+<table id="mainTab">
+    <tr>
+        <td style="vert-align: bottom; horiz-align: left;">
+
+            <div id="video2">
+
+                <div id="shopperProfiles" class="hidden">
+                    <ul class="profiles">
+                        <li class="profileItem"><span>&nbsp;</span><br/><img src="icons1.png" height="120" width="120"/></li>
+                        <li class="profileItem"><span>MIKE #1</span><br/><img src="profileimg.png" height="120" width="120"/><br/>Rating: 3.4<br/>Shopping @: Target<br/>Motto: I love tactile</li>
+                        <li class="profileItem"><span>GARY #2</span><br/><img src="profileimg2.png" height="120" width="120"/><br/>Rating: 3.8<br/>Shopping @: BestBuy<br/>Motto: get Er Done</li>
+                        <li class="profileItem"><span>BOB #3</span><br/><img src="profileimg3.png" height="120" width="120"/><br/>Rating: 3.5<br/>Shopping @: Macys<br/>Motto: At your service</li>
+                        <li class="profileItem"><span>STEVE #4</span><br/><img src="profileimg4.png" height="120" width="120"/><br/>Rating: 3.1<br/>Shopping @: WalMart<br/>Motto: Workin' it!</li>
+                    </ul>
+                </div>
+                <div id="storeProfiles" class="">
+                    <ul class="profiles">
+                        <li class="profileItem"><span>&nbsp;</span><br/><img src="icons1.png" height="120" width="120"/></li>
+                        <li class="profileItem"><span>TARGET</span><br/><img src="../BRANDS/target.gif" height="120" width="120"/><br/>800 Wilshire Blvd.</li>
+                        <li class="profileItem"><span>BESTBUY</span><br/><img src="../BRANDS/best-buy.png" height="120" width="120"/><br/>1200 Church St.</li>
+                        <li class="profileItem"><span>MACYS</span><br/><img src="../BRANDS/macys.gif" height="120" width="120"/><br/>432 Orange Dr.</li>
+                        <li class="profileItem"><span>WALMART</span><br/><img src="../BRANDS/walmart.png" height="120" width="120"/><br/>123 1st Ave</li>
+                    </ul>
+                </div>
+                <iframe id="webRTCFrame" class="selectShopperEvent hidden"
+                        src="https://www.aichart.io/tokBox/"
+                        width="100%"
+                        height="600px"
+                        frameborder="0"
+                        scrolling="no"
+                        allow="microphone; camera"
+                ></iframe>
+                <div id="commandForm"  class="selectShopperEvent hidden">
+                    <form action="#">
+                        <div class="active-pink-3 active-pink-4 mb-4" style="horiz-align: center">
+                            <input class="form-control" id="shopperCommand" type="text" placeholder="SEND COMMAND TO PERSONAL SHOPPER" aria-label="COMMAND">
+                        </div>
+                    </form>
+                </div>
+                <iframe src="http://www.speak2.shop:81/wordpress" id="fframe" class="fframe" frameborder="0"
+                        allow="microphone; camera"
+                        height="2200vw" width="100%" scrolling="no"></iframe>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.6/js/mdb.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+<script type="text/javascript" src="//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js"></script>
+<script type="text/javascript" src="//unpkg.com/feathers-memory@^2.0.0/dist/feathers-memory.js"></script>
+
+<script>
+    const socket = io('http://www.aichart.io:3030',{transports:['websocket'], rejectUnauthorized: false, secure: false});
+    const socket2 = io('http://www.speak2.shop:7575',{transports:['websocket'], rejectUnauthorized: false, secure: false});
+    let uxUUID =  "17067660-e920-11e8-9f32-f2801f1b9f4";
+
+
+    let viewObject = {
+        _uuid : "17067660-e920-11e8-9f32-f2801f1b9f4",
+        parent : {"_id":"bdy"},
+        children : {
+            'optionsmenu' :
+                {
+                    "_id" : "optionsmenu",
+                    "_vtype":"stocks",
+                    "status":"show",
+                    "euclid" : {
+                        "vector":[0,0,0],
+                        "rotation":[0.0,0.0,0.0],
+                        "scale": 1.0
+                    },
+                    "dimension": [300,300,1],
+
+                },
+            'view_test':
+                {
+                    "_id" : "view_test",
+                    "_vtype":"pinterest",
+                    "status":"show",
+                    "euclid" :  {
+                        "vector":[0,0,0],
+                        "rotation":[0.0,0.0,0.0],
+                        "scale": 1.0
+                    },
+                    "dimension": [300,300,1],
+                }
+        } ,
+        history: []
+    };
+
+
+
+    const addshopcmd = shopcmd => {
+
+        // HERE THE OBJECT IS PULLED APART AND DE-SERIALIZED
+        // EACH OF THE VARIABLE OBJECTS RECEIVE A MAPPING TOT HE REQUIRED FIELDS
+
+        const webSiteURL = "http://www.speak2.shop:81/wordpress/";  // this should be read and loaded from the browser URL
+        //console.log('ADD shopcmd : \n'+JSON.stringify(shopcmd));
+        const chat = document.querySelector('.shopcmd');
+        const text = shopcmd.text;  // THIS IS THE SEARCH TEXT QUERY
+        const iid = shopcmd.id;  // UNUSED !!!!
+        const UUIDx = uxUUID;    //   THIS IS THE UNIQUE UUID FOR THIS SINGLE MERCHANT AND BROWSER
+        const searchTerm = shopcmd.searchTerm;  //  THIS IS THE AMAZON TERM USED BY THE
+        const partnerSearchTerm = shopcmd.term;
+        const aagent = shopcmd.agent;
+        const onsite = shopcmd.ONSITE;
+        const targetItem = shopcmd.target;  // THE TARGET ITEM AS PER THE VOICE ENGINE
+        const compareItems = shopcmd.targets;  // THE TARGET COMPARE ITEMS OR ADD CART ITEMS
+        const actionType = shopcmd.actionType;  // THIS IS THE MASTER EUCLID STATE CONTEXT ACTION VALUE
+        const optionType = shopcmd.optionType; // OPTION MENU TYPE TO DISPLAY AS MODAL
+        const merchant = shopcmd.merchant;  // THE TARGET MERCHANT WEBSITE DEFINED
+        const metaD = shopcmd.metadata;  // THIS SI A CATCH ALL SERIALIZED OBJECT
+        let bearing = shopcmd.bearing;  // THIS OBJECT CONTROLS DIRECTION OF THE BROWSE NAVIGATE ACTION (NEXT PAGE ETC)
+        const bdy = document.querySelector('.bdy');  //  THE ENTIRE BODY OBJECT SELECTOR REFERENCE TO THE DOM NODE
+        const bbody = document.querySelector('body');
+
+
+        let obj = '';
+        if(_.isEqual(actionType , "SHOW_AGENTS") || _.isEqual(actionType , "SHOW AGENTS")) {
+            console.log('SHOW AGENTS LIST');
+            $('#storeProfiles').addClass('hidden');
+            $('#shopperProfiles').removeClass('hidden');
+        }else if(_.isEqual(actionType , "SHOP_STORE") || _.isEqual(actionType , "ShopAStore")){
+            console.log('CUSTOMER ASKED TO SHOP FOR '+ searchTerm.value);
+        }else if(_.isEqual(actionType , "SELECT_AGENT") || _.isEqual(actionType , "SELECT AGENT")){
+            console.log('SELECT AGENTS ' + onsite );
+            $('#webRTCFrame').removeClass('hidden');
+            $('#commandForm').removeClass('hidden');
+        }else if(_.isEqual(actionType , "FIND_LIKETHIS") || _.isEqual(actionType , "FIND LIKE THIS")){
+            console.log('ASK AGENT TO LOOK AT CUSTOMER SCREEN');
+        }
+
+        console.log("$%$%$% \n ACTIONTYPE: "+ actionType);
+
+
+
+    };
+
+    function init() {
+
+        socket.emit('find', 'shopcmds', {
+            UUID : uxUUID,
+            $sort: { createdAt: -1 },
+            $limit: 1
+        }, (error, data) => {
+            console.log('RECORD FOUND:', data);
+            _.each(data.data, addshopcmd)
+        });
+
+        $('#shopperProfiles').hide();
+        $("#storeProfiles").show();
+
+        $(function () {
+            $('#storeProfiles').removeClass('hidden');
+            $('#shopperProfiles').addClass('hidden');
+        });
+    }
+
+
+    socket.on('shopcmds created', function(shopcmd) {
+        let nowTime = moment().format();
+        console.log( ' COMMAND DETECTED '+ nowTime + ' : \n ================= \n', shopcmd);
+        addshopcmd(shopcmd)
+    });
+
+    socket2.on('searches created', function(searches) {
+        let nowTime = moment().format();
+        console.log( ' SEARCH DETECTED '+ nowTime + ' : \n ================= \n', searches);
+        // addshopcmd(shopcmd)
+    });
+
+
+</script>
+</body>
+</html>

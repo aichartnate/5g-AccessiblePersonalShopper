@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta name="viewport" content="transparent-background">
+<head>
+    <meta charset="UTF-8">
+    <title>5G Personal Shopper</title>
+    <style>
+
+    #video1{
+         position:absolute;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto ;
+        background-color: rgba(255, 255, 255, 0.0);
+        padding: 0px;
+    }
+    .grid-item {
+        background-color: rgba(255, 255, 255, 0.0);
+        border: 0px none rgba(0, 0, 0, 0.8);
+        padding: 0px;
+        font-size: 30px;
+        text-align: center;
+    }
+
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
+    <script src="https://unpkg.com/@magicleap/prismatic"></script>
+</head>
+<body allow="microphone; camera">
+
+<div class="grid-container">
+    <div class="grid-item" style="text-align:left;"><iframe
+            src="https://www.aichart.io/tokBoxShopper/"
+            width="600px"
+            height="640px"
+            scrolling="auto"
+            allow="microphone; camera"
+    ></iframe></div>
+    <div class="grid-item"  style="text-align:right;"></div>
+    <div class="grid-item"  style="text-align:left;"><video width="620" height="440" autoplay loop muted >
+        <source src="./vid2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video></div>
+    <div class="grid-item" style="text-align:right;"><video width="620" height="440" autoplay loop muted >
+        <source src="./vid1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video></div>
+</div>
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+<script type="text/javascript" src="//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js"></script>
+<script type="text/javascript" src="//unpkg.com/feathers-memory@^2.0.0/dist/feathers-memory.js"></script>
+
+<script>
+    const socket = io('http://www.aichart.io:3030',{transports:['websocket'], rejectUnauthorized: false, secure: false});
+    const socket2 = io('http://www.speak2.shop:7575',{transports:['websocket'], rejectUnauthorized: false, secure: false});
+    let uxUUID =  "17067660-e920-11e8-9f32-f2801f1b9f4";
+
+
+    let viewObject = {
+        _uuid : "17067660-e920-11e8-9f32-f2801f1b9f4",
+        parent : {"_id":"bdy"},
+        children : {
+            'optionsmenu' :
+                {
+                    "_id" : "optionsmenu",
+                    "_vtype":"stocks",
+                    "status":"show",
+                    "euclid" : {
+                        "vector":[0,0,0],
+                        "rotation":[0.0,0.0,0.0],
+                        "scale": 1.0
+                    },
+                    "dimension": [300,300,1],
+
+                },
+            'view_test':
+                {
+                    "_id" : "view_test",
+                    "_vtype":"pinterest",
+                    "status":"show",
+                    "euclid" :  {
+                        "vector":[0,0,0],
+                        "rotation":[0.0,0.0,0.0],
+                        "scale": 1.0
+                    },
+                    "dimension": [300,300,1],
+                }
+        } ,
+        history: []
+    };
+
+
+
+
+    function runSearchResultPost(searchTerm){
+        console.log("SEARCH RESULT POST FOUND")
+    }
+
+
+    const addshopcmd = shopcmd => {
+
+        // HERE THE OBJECT IS PULLED APART AND DE-SERIALIZED
+        // EACH OF THE VARIABLE OBJECTS RECEIVE A MAPPING TOT HE REQUIRED FIELDS
+
+        const webSiteURL = "http://www.speak2.shop:81/wordpress/";  // this should be read and loaded from the browser URL
+        //console.log('ADD shopcmd : \n'+JSON.stringify(shopcmd));
+        const chat = document.querySelector('.shopcmd');
+        const text = shopcmd.text;  // THIS IS THE SEARCH TEXT QUERY
+        const iid = shopcmd.id;  // UNUSED !!!!
+        const UUIDx = uxUUID;    //   THIS IS THE UNIQUE UUID FOR THIS SINGLE MERCHANT AND BROWSER
+        const searchTerm = shopcmd.searchTerm;  //  THIS IS THE AMAZON TERM USED BY THE
+        const partnerSearchTerm = shopcmd.term;
+        const aagent = shopcmd.agent;
+        const onsite = shopcmd.ONSITE;
+        const targetItem = shopcmd.target;  // THE TARGET ITEM AS PER THE VOICE ENGINE
+        const compareItems = shopcmd.targets;  // THE TARGET COMPARE ITEMS OR ADD CART ITEMS
+        const actionType = shopcmd.actionType;  // THIS IS THE MASTER EUCLID STATE CONTEXT ACTION VALUE
+        const optionType = shopcmd.optionType; // OPTION MENU TYPE TO DISPLAY AS MODAL
+        const merchant = shopcmd.merchant;  // THE TARGET MERCHANT WEBSITE DEFINED
+        const metaD = shopcmd.metadata;  // THIS SI A CATCH ALL SERIALIZED OBJECT
+        let bearing = shopcmd.bearing;  // THIS OBJECT CONTROLS DIRECTION OF THE BROWSE NAVIGATE ACTION (NEXT PAGE ETC)
+        const bdy = document.querySelector('.bdy');  //  THE ENTIRE BODY OBJECT SELECTOR REFERENCE TO THE DOM NODE
+        const bbody = document.querySelector('body');
+
+
+                let obj = '';
+                if(_.isEqual(actionType , "SHOW_AGENTS") || _.isEqual(actionType , "SHOW AGENTS")) {
+                    console.log('SHOW AGENTS LIST');
+
+                }else if(_.isEqual(actionType , "SHOP_STORE") || _.isEqual(actionType , "ShopAStore")){
+                    console.log('CUSTOMER ASKED TO SHOP FOR '+ searchTerm.value);
+                }else if(_.isEqual(actionType , "SELECT_AGENT") || _.isEqual(actionType , "SELECT AGENT")){
+                    console.log('SELECT AGENTS ' + onsite );
+                }else if(_.isEqual(actionType , "FIND_LIKETHIS") || _.isEqual(actionType , "FIND LIKE THIS")){
+                    console.log('ASK AGENT TO LOOK AT CUSTOMER SCREEN');
+                }
+
+                console.log("$%$%$% \n ACTIONTYPE: "+ actionType);
+
+                chat.insertAdjacentHTML( 'beforeend', `
+                <div class="message flex flex-row">
+                  <div class="message-wrapper">
+                    <p class="message-header">
+                      <span class="sent-date font-300">
+                        ${moment(shopcmd.createdAt).format('MMM Do, hh:mm:ss')}
+                      </span>
+                      <br/>
+                      <span>ACTION TYPE: ${actionType}</span>
+                    </p>
+                    <p class="message-content font-300">${UUIDx} <BR/> ${text}</p>
+                  </div>
+                </div>
+            `);
+
+    };
+
+    function init() {
+
+        socket.emit('find', 'shopcmds', {
+            UUID : uxUUID,
+            $sort: { createdAt: -1 },
+            $limit: 1
+        }, (error, data) => {
+            console.log('RECORD FOUND:', data);
+            _.each(data.data, addshopcmd)
+        });
+
+        runSearchResultPost(searchTerm);
+    }
+
+
+    socket.on('shopcmds created', function(shopcmd) {
+        let nowTime = moment().format();
+        console.log( ' COMMAND DETECTED '+ nowTime + ' : \n ================= \n', shopcmd);
+        addshopcmd(shopcmd)
+    });
+
+    socket2.on('searches created', function(searches) {
+        let nowTime = moment().format();
+        console.log( ' SEARCH DETECTED '+ nowTime + ' : \n ================= \n', searches);
+        // addshopcmd(shopcmd)
+    });
+
+
+</script>
+</body>
+</html>
