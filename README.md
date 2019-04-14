@@ -1,4 +1,4 @@
-# 5g-MyPersonalShopper
+# 5g Accessible Personal Shopper
 
 Inspiration:
 The world's first 5G Powered accessible shopping experience. We capitalize on high speed bandwidth to bring a unique and power platform to the mobility and vision impaired. When our military veterans have a hard time getting to the mall to buy the basics, our technology saves them the trip. Our US Military Hero's can link to available personal shoppers in real time using 5G two way communication. Mobility disability effects 100% of the population at some point in their life. Whether its is dues to injuries sustained from military service, accidental broken bones, Cerebral Palsy, Muscular Dystrophy, Arthritis, dismemberment, or as a result of the human aging process. One thing is certain, we can not always count on the complete use and reliability of our Arms, Hands, Legs, and Feet.
